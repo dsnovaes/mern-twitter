@@ -1,5 +1,6 @@
 require('./models/User');
-
+require('./config/passport');
+const passport = require('passport');
 const express = require("express");
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -22,12 +23,13 @@ app.use(cookieParser());
 
 // Security Middleware
 if (!isProduction) {
-  // Enable CORS only in development because React will be on the React
-  // development server (http://localhost:3000). (In production, React files
-  // will be served statically on the Express server.)
-  app.use(cors());
+    // Enable CORS only in development because React will be on the React
+    // development server (http://localhost:3000). (In production, React files
+    // will be served statically on the Express server.)
+    app.use(cors());
 }
 
+app.use(passport.initialize());
 // Set the _csrf token and create req.csrfToken method to generate a hashed
 // CSRF token
 app.use(
